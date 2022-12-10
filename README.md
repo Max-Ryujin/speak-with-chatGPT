@@ -6,12 +6,11 @@ talk with chatGPT using
 * the inofficial chatGPT api from mmabrouk https://github.com/mmabrouk/chatgpt-wrapper
 
 ## Installation
-run
+1. run ``` pip3 install -r requirments.txt ```
+2. Install chatgpt-wrapper following the Readme at https://github.com/mmabrouk/chatgpt-wrapper 
 
-``` pip3 install -r requirments.txt ```
-
-then install chatgpt-wrapper following the Readme at https://github.com/mmabrouk/chatgpt-wrapper
-
+## Usage
+Press and hold 'r' while talking. Output can tke a while or stop completly depending on the availability of chatGPT. 
 ## known issues, missing features and todos
 
 1. customise key
