@@ -24,6 +24,7 @@ def speak(s):
     myoutput.save("..\\output.mp3")
     playsound.playsound('..\\output.mp3')
     os.remove('..\\output.mp3')    
+
 pass
 
 if __name__ == "__main__":
@@ -52,8 +53,7 @@ if __name__ == "__main__":
             stream.stop_stream()
             stream.close()
 
-            #transcripe to wav file
-
+            #convert to wav file
             print('processing...')      
             sf = wave.open("..\\x.wav", 'wb')
             sf.setnchannels(chanels)
@@ -66,6 +66,7 @@ if __name__ == "__main__":
             print("Transcribe...")
             result = model.transcribe("..\\x.wav")
             print(result["text"])
+
 
             #call chatGPT api function
             response = bot.ask(result["text"])
