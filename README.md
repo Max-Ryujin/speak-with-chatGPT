@@ -7,6 +7,7 @@ talk with chatGPT using
 
 ## Installation
 run
-''' pip3 install -r requirments.txt '''
+
+``` pip3 install -r requirments.txt ```
 
 then install chatgpt-wrapper following the Readme at https://github.com/mmabrouk/chatgpt-wrapper
