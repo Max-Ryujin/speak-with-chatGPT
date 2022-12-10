@@ -21,9 +21,9 @@ smpl_rt = 44400
 
 def speak(s):
     myoutput = gTTS(text=s, lang='en', slow=False)
-    myoutput.save("~\\output.mp3")
-    playsound.playsound('~\\output.mp3')
-    os.remove('~\\output.mp3')    
+    myoutput.save("..\\output.mp3")
+    playsound.playsound('..\\output.mp3')
+    os.remove('..\\output.mp3')    
 pass
 
 if __name__ == "__main__":
@@ -55,7 +55,7 @@ if __name__ == "__main__":
             #transcripe to wav file
 
             print('processing...')      
-            sf = wave.open("~\\x.wav", 'wb')
+            sf = wave.open("..\\x.wav", 'wb')
             sf.setnchannels(chanels)
             sf.setsampwidth(pa.get_sample_size(sample_format))
             sf.setframerate(smpl_rt)
@@ -64,7 +64,7 @@ if __name__ == "__main__":
             
             #transcripe with Whisper
             print("Transcribe...")
-            result = model.transcribe("~\\x.wav")
+            result = model.transcribe("..\\x.wav")
             print(result["text"])
 
             #call chatGPT api function
