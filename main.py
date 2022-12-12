@@ -38,16 +38,21 @@ if __name__ == "__main__":
     #load whisper model
     model = whisper.load_model("base")
 
+    key = input("select a key to hold for speech input. default is r: \n")
+    if(key == ""):
+        key = "r"
+    print("Ready:")
+    
     while True:
         frames = [] 
-        if(keyboard.read_key() == "r"):
+        if(keyboard.read_key() == key):
 
             #recording 
             print('Recording...')
             stream = pa.open(format=sample_format, channels=chanels,
                     rate=smpl_rt, input=True,
                     frames_per_buffer=chunk)
-            while(keyboard.is_pressed("r")):
+            while(keyboard.is_pressed(key)):
                 data = stream.read(chunk)
                 frames.append(data)
             stream.stop_stream()

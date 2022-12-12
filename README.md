@@ -2,7 +2,7 @@
 
 talk with chatGPT using 
 * whisper 
-* pyaudio 
+* gTTS 
 * the inofficial chatGPT api from mmabrouk https://github.com/mmabrouk/chatgpt-wrapper
 
 ## Installation
@@ -10,10 +10,9 @@ talk with chatGPT using
 2. Install chatgpt-wrapper following the Readme at https://github.com/mmabrouk/chatgpt-wrapper 
 
 ## Usage
-Press and hold 'r' while talking. Output can tke a while or stop completly depending on the availability of chatGPT. 
+run ``` python3 -W ignore main.py ``` and select a key to use.
 ## known issues, missing features and todos
 
-1. customise key
-2. make installation easier (official api?)
-3. runs to slow (official api?)
-4. preprocess output to stop it from reading symbols like '
+1. make installation easier (official api?)
+2. runs to slow (official api?)
+3. preprocess output to stop it from reading symbols like "'" or "#"
