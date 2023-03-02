@@ -1,18 +1,24 @@
 # speak-with-chatGPT
 
-talk with chatGPT using 
-* whisper 
-* gTTS 
-* the inofficial chatGPT api from mmabrouk https://github.com/mmabrouk/chatgpt-wrapper
+talk with chatGPT using
+
+* whisper
+* gTTS
+* the fficial ChatGPT API
 
 ## Installation
+
 1. run ``` pip3 install -r requirments.txt ```
-2. Install chatgpt-wrapper following the Readme at https://github.com/mmabrouk/chatgpt-wrapper 
+2. add your chatGPT API key to your environment variables as ```OPENAI_API_KEY```
 
 ## Usage
-run ``` python3 -W ignore main.py ``` and select a key to use.
+
+1. run ```python3 main.py <language>```
+2. hold 'r' and speak to chatGPT
+
 ## known issues, missing features and todos
 
-1. make installation easier (official api?)
-2. runs to slow (official api?)
-3. preprocess output to stop it from reading symbols like "'" or "#"
+* [ ] add more languages
+* [ ] add more voices
+* [ ] customise keybindings
+* [ ] long ansers are to slow

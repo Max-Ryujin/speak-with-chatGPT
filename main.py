@@ -1,12 +1,14 @@
-import whisper
 from gtts import gTTS
 import pyaudio
 import wave
+import sys
 import keyboard
-import os
-import playsound
-from chatgpt_wrapper import ChatGPT
 import time
+import os
+import openai
+from pydub import AudioSegment
+from pydub.playback import play
+from pydub.effects import speedup
 
 
 chunk = 1024 
@@ -18,66 +20,76 @@ chanels = 1
 # Record at 44400 samples per second
 smpl_rt = 44400 
 
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
+#check if language is supported and set language variable to the correct language code
+# check if args[1] is empty because if it is empty the language variable will be set to english
+if(len(sys.argv) == 1 or sys.argv[1] == "en" or sys.argv[1] == "english" or sys.argv[1] == "englisch"):
+    language = "en"
+elif(sys.argv[1] == "de" or sys.argv[1] == "german" or sys.argv[1] == "deutsch"):
+    language = "de"
+else:
+    print("Language not supported")
+    exit()
+
+#function to speak the output 
 def speak(s):
-    myoutput = gTTS(text=s, lang='en', slow=False)
-    myoutput.save("..\\output.mp3")
-    playsound.playsound('..\\output.mp3')
-    os.remove('..\\output.mp3')    
+    start = time.time()
+    myoutput = gTTS(text=s, lang=language, slow=False)
+    myoutput.save("C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3")
+    tts = AudioSegment.from_mp3('C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3')
+    output = speedup(tts,1.5,150)
+    output.export("file.mp3", format="mp3")
+    end = time.time()
+    print(end - start)
+    play(output)
+    os.remove('C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3')    
 
 pass
 
 if __name__ == "__main__":
 
-    # Initialize the ChatGPT Model for Transcribing Messages
-    bot = ChatGPT()
-
     # Create an interface to PortAudio
     pa = pyaudio.PyAudio() 
-
-    #load whisper model
-    model = whisper.load_model("base")
-
-    key = input("select a key to hold for speech input. default is r: \n")
-    if(key == ""):
-        key = "r"
-    print("Ready:")
-    
+    speak("Hello, I am Jarvis. How can I help you?")
     while True:
         frames = [] 
-        if(keyboard.read_key() == key):
+        if(keyboard.read_key() == "r"):
 
             #recording 
             print('Recording...')
             stream = pa.open(format=sample_format, channels=chanels,
                     rate=smpl_rt, input=True,
                     frames_per_buffer=chunk)
-            while(keyboard.is_pressed(key)):
+            while(keyboard.is_pressed("r")):
                 data = stream.read(chunk)
                 frames.append(data)
             stream.stop_stream()
             stream.close()
 
-            #convert to wav file
+            #transcripe to wav file and save it
             print('processing...')      
-            sf = wave.open("..\\x.wav", 'wb')
+            sf = wave.open("C:\\Users\\MaxKa\AI Playground\\Jarvis\\x.wav", 'wb')
             sf.setnchannels(chanels)
             sf.setsampwidth(pa.get_sample_size(sample_format))
             sf.setframerate(smpl_rt)
             sf.writeframes(b''.join(frames))
             sf.close()
             
-            #transcripe with Whisper
+            #transcribe the audio file
             print("Transcribe...")
-            result = model.transcribe("..\\x.wav")
-            print(result["text"])
+            file = open("C:\\Users\\MaxKa\AI Playground\\Jarvis\\x.wav", "rb")
+            transcription = openai.Audio.transcribe("whisper-1", file)
 
+            print(transcription)
 
             #call chatGPT api function
-            response = bot.ask(result["text"])
-
-            speak(response)
-
-
-       
-
+            completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo", 
+            messages=[
+                {"role": "system", "content": "You are Jarvis, a virtual assistant. You give short answers to questions and never say more then 3 sentences."},
+                {"role": "user", "content": transcription['text']}
+                ])
+            print("\n ------------------ \n")
+            print(completion['choices'][0]['message']['content'])
+            speak(completion['choices'][0]['message']['content'])
