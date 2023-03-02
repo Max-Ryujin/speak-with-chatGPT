@@ -3,7 +3,6 @@ import pyaudio
 import wave
 import sys
 import keyboard
-import time
 import os
 import openai
 from pydub import AudioSegment
@@ -34,20 +33,19 @@ else:
 
 #function to speak the output 
 def speak(s):
-    start = time.time()
     myoutput = gTTS(text=s, lang=language, slow=False)
     myoutput.save("C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3")
     tts = AudioSegment.from_mp3('C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3')
     output = speedup(tts,1.5,150)
     output.export("file.mp3", format="mp3")
-    end = time.time()
-    print(end - start)
     play(output)
     os.remove('C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3')    
 
 pass
 
 if __name__ == "__main__":
+
+    message_history = [{"role": "system", "content": "You are Jarvis, a virtual assistant. You give short answers to questions and never say more then 3 sentences."}]
 
     # Create an interface to PortAudio
     pa = pyaudio.PyAudio() 
@@ -80,16 +78,18 @@ if __name__ == "__main__":
             print("Transcribe...")
             file = open("C:\\Users\\MaxKa\AI Playground\\Jarvis\\x.wav", "rb")
             transcription = openai.Audio.transcribe("whisper-1", file)
-
+            message_history.append({"role": "user", "content": transcription['text']})
             print(transcription)
 
             #call chatGPT api function
             completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo", 
-            messages=[
-                {"role": "system", "content": "You are Jarvis, a virtual assistant. You give short answers to questions and never say more then 3 sentences."},
-                {"role": "user", "content": transcription['text']}
-                ])
+            messages=message_history)
+            
+            #save the completion as a message
+            message_history.append({"role": "system", "content": completion['choices'][0]['message']['content']})
+
+            #print the output and speak it
             print("\n ------------------ \n")
             print(completion['choices'][0]['message']['content'])
             speak(completion['choices'][0]['message']['content'])
