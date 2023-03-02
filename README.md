@@ -4,7 +4,7 @@ talk with chatGPT using
 
 * whisper
 * gTTS
-* the fficial ChatGPT API
+* the official ChatGPT API
 
 ## Installation
 
@@ -13,8 +13,12 @@ talk with chatGPT using
 
 ## Usage
 
-1. run ```python3 main.py <language>```
+1. run ```python3 main.py <language>``` language can be ```en``` or ```de```
 2. hold 'r' and speak to chatGPT
+
+## cost of usage
+
+around 0.0005$ per question
 
 ## known issues, missing features and todos
 
