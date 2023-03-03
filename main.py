@@ -45,11 +45,14 @@ pass
 
 if __name__ == "__main__":
 
-    message_history = [{"role": "system", "content": "You are Jarvis, a virtual assistant. You give short answers to questions and never say more then 3 sentences."}]
+    message_history = [{"role": "system", "content": "You are Karin, an AI assistant. You give short answers to questions and never say more then 3 sentences."}]
 
     # Create an interface to PortAudio
     pa = pyaudio.PyAudio() 
-    speak("Hello, I am Jarvis. How can I help you?")
+    if(language == "de"):
+        speak("Hallo, ich bin Karin. Wie kann ich dir helfen?")
+    else:
+        speak("Hello, I am Karin. How can I help you?")
     while True:
         frames = [] 
         if(keyboard.read_key() == "r"):
