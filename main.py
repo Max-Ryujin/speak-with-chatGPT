@@ -82,7 +82,7 @@ if __name__ == "__main__":
             file = open("x.wav", "rb")
             transcription = openai.Audio.transcribe("whisper-1", file)
             message_history.append({"role": "user", "content": transcription['text']})
-            print(transcription)
+            print(transcription['text'])
 
             #call chatGPT api function
             completion = openai.ChatCompletion.create(
