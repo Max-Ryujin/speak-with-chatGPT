@@ -34,12 +34,12 @@ else:
 #function to speak the output 
 def speak(s):
     myoutput = gTTS(text=s, lang=language, slow=False)
-    myoutput.save("C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3")
-    tts = AudioSegment.from_mp3('C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3')
+    myoutput.save("output.mp3")
+    tts = AudioSegment.from_mp3('output.mp3')
     output = speedup(tts,1.5,150)
     output.export("file.mp3", format="mp3")
     play(output)
-    os.remove('C:\\Users\\MaxKa\AI Playground\\Jarvis\\output.mp3')    
+    os.remove('output.mp3')    
 
 pass
 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
             #transcripe to wav file and save it
             print('processing...')      
-            sf = wave.open("C:\\Users\\MaxKa\AI Playground\\Jarvis\\x.wav", 'wb')
+            sf = wave.open("x.wav", 'wb')
             sf.setnchannels(chanels)
             sf.setsampwidth(pa.get_sample_size(sample_format))
             sf.setframerate(smpl_rt)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
             
             #transcribe the audio file
             print("Transcribe...")
-            file = open("C:\\Users\\MaxKa\AI Playground\\Jarvis\\x.wav", "rb")
+            file = open("x.wav", "rb")
             transcription = openai.Audio.transcribe("whisper-1", file)
             message_history.append({"role": "user", "content": transcription['text']})
             print(transcription)
